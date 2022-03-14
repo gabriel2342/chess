@@ -58,24 +58,33 @@ class Board < Node
 
   def player_move
     puts "Please enter your move:"
-    @player_move = gets.chomp 
+    @player_move = gets.chomp.chars
   end
 
   def validate_player_move; end
 
+  
+
+  def poss_move_arr
+    @possible_moves = []
+    knight_moves.each do |move|
+      @possible_moves.push([move[0] + @move_start[0], move[1]+ @move_start[1]])
+    end
+    @possible_moves
+  end
+
   def move_to_coordinates
-    @move_hash = {a: 1, b: 2, c: 3, d:4, e: 5, f: 6, g:7, h: 8}
-    piece_positions = @player_move.chars
-    @move_start = [@move_hash[piece_positions[0].to_sym], piece_positions[1].to_i]
-    @move_end = [[@move_hash[piece_positions[2].to_sym], piece_positions[3].to_i]]
+    move_hash = {a: 1, b: 2, c: 3, d:4, e: 5, f: 6, g:7, h: 8}
+    @move_start = [move_hash[@player_move[0].to_sym], @player_move[1].to_i]
+    @move_end = [[move_hash[@player_move[2].to_sym], @player_move[3].to_i]]
 
   end
 
   def coordinates_to_move
     result_arr = []
-    @coord_hash = {1 => "a", 2 =>  "b", 3 => "c", 4 => "d", 5 => "e", 6 => "f", 7 => "g", 8 => "h"}
-    @coord_moves = @possible_moves.each do |element|
-      result_arr.push([@coord_hash[element[0]], element[1]].join(""))
+    coord_hash = {1 => "a", 2 =>  "b", 3 => "c", 4 => "d", 5 => "e", 6 => "f", 7 => "g", 8 => "h"}
+    @possible_moves.each do |element|
+      result_arr.push([coord_hash[element[0]], element[1]].join(""))
     end
     result_arr
   end
@@ -85,13 +94,7 @@ class Board < Node
     [[1,2], [1, -2], [-1, 2], [-1, -2], [2,1], [-2,1], [2, -1], [-2,-1]]
   end
 
-  def poss_move_arr
-    resultarr = []
-    @possible_moves = knight_moves.each do |move|
-      resultarr.push([move[0] + @player_move[0], move[1]+ @player_move[1]])
-    end
-    resultarr
-  end
+ 
 end
 
 chessboard = Board.new
@@ -100,5 +103,5 @@ chessboard.display_board
 chessboard.player_move
 p chessboard.move_to_coordinates
 p chessboard.knight_moves
-#p chessboard.poss_move_arr
+p chessboard.poss_move_arr
 p chessboard.coordinates_to_move
