@@ -37,17 +37,19 @@ chess_unicode = {
 class Board < Node
 
   def initialize
-    @our_array = []
+    @board_array = []
+    @possible_moves = []
+    @player_move = []
     
   end
 
-  def board_array
+  def board_arr
       (0..8).each do |i|
         (0..8).each do |j|
-          @our_array.push([i,j])
+          @board_array.push([i,j])
         end
       end
-    p @our_array
+    p @board_array
   end
 
 
@@ -63,14 +65,21 @@ class Board < Node
 
   def validate_player_move; end
 
-  
+  def validate_knight_move; end
 
-  def poss_move_arr
-    @possible_moves = []
+
+  def poss_move_arr(array)
+
     knight_moves.each do |move|
-      @possible_moves.push([move[0] + @move_start[0], move[1]+ @move_start[1]])
+        array.push([move[0] + @move_start[0], move[1]+ @move_start[1]])
     end
-    @possible_moves
+    array.select do |ele|
+      ele[0] > 0 && ele[0] < 9 && ele[1] > 0 && ele[1] < 9
+    end
+  end
+
+  def our_moves
+    poss_move_arr(@possible_moves)
   end
 
   def move_to_coordinates
@@ -80,18 +89,30 @@ class Board < Node
 
   end
 
-  def coordinates_to_move
+  def coordinates_to_move(coords)
     result_arr = []
     coord_hash = {1 => "a", 2 =>  "b", 3 => "c", 4 => "d", 5 => "e", 6 => "f", 7 => "g", 8 => "h"}
-    @possible_moves.each do |element|
+    coords.each do |element|
       result_arr.push([coord_hash[element[0]], element[1]].join(""))
     end
-    result_arr
+    result_arr.uniq.sort.join(", ")
   end
 
 
   def knight_moves
     [[1,2], [1, -2], [-1, 2], [-1, -2], [2,1], [-2,1], [2, -1], [-2,-1]]
+  end
+
+  def initialize_graph
+    @root = Node.new(@move_end)
+  end
+
+  def build_graph(array)
+    return array if array.include?(@move_start)
+    initialize_graph
+    @root = Node.new(@move_end)
+    our_array = poss_move_arr(array)
+    build_graph(our_array)
   end
 
  
@@ -103,5 +124,5 @@ chessboard.display_board
 chessboard.player_move
 p chessboard.move_to_coordinates
 p chessboard.knight_moves
-p chessboard.poss_move_arr
-p chessboard.coordinates_to_move
+p chessboard.our_moves
+p chessboard.coordinates_to_move(chessboard.our_moves)
