@@ -1,12 +1,12 @@
 class Node
-  attr_accessor :value, :neighbors
+  attr_accessor :board_position, :adjacent_squares
 
-  def initialize(position = nil, adjacent_squares = [])
-    @position = position
+  def initialize(board_position = nil, adjacent_squares = [])
+    @board_position = board_position
     @adjacent_squares = adjacent_squares
   end
 
-  def add_edge(adjacent_square)
+  def add_square(adjacent_square)
     @adjacent_squares << adjacent_square
   end
 end
