@@ -1,39 +1,26 @@
 class Node
   attr_accessor :value, :neighbors
 
-  def initialize(value = nil, neighbors = [])
-    self.value = value
-    self.neighbors = neighbors
+  def initialize(position = nil, adjacent_squares = [])
+    @position = position
+    @adjacent_squares = adjacent_squares
   end
 
-  def add_edge(neighbor)
-    @neighbors << neighbor
-  end
-end
-
-class Graph
-  attr_accessor :nodes
-
-  def initialize
-    @nodes = []
-  end
-
-  def add_node(value)
-    @nodes << Node.new(value)
+  def add_edge(adjacent_square)
+    @adjacent_squares << adjacent_square
   end
 end
 
+# class Graph
+#   attr_accessor :nodes
 
-def level_order
-  result = []
-  queue = [@root]
-  
-  until queue.empty?
-    node = queue.shift
-    queue.push(node.left) unless node.left.nil?
-    queue.push(node.right) unless node.right.nil?
-    block_given? ? yield(node) : result.push(node.data)
-  end
-  
-  result unless block_given?
-end
+#   def initialize
+#     @nodes = []
+#   end
+
+#   def add_node(value)
+#     @nodes << Node.new(value)
+#   end
+# end
+
+

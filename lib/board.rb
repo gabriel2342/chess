@@ -43,15 +43,20 @@ class Board < Node
     
   end
 
-  def board_arr
-      (0..8).each do |i|
-        (0..8).each do |j|
-          @board_array.push([i,j])
-        end
-      end
-    p @board_array
+  def board_array
+    (1..8).each do |i|
+      temp = []
+      (1..8).each {|j| temp.push(Node.new([i,j]))}
+      @board_array.push(temp)
+    end
+    p "result #{@board_array}"
   end
 
+  # def build_graph
+  #   @board_array.each do |coord|
+  #     Graph.new.new_node(coord)
+  #   end
+  # end
 
   def display_board
       puts " a  b  c  d  e  f  g  h"
@@ -103,26 +108,22 @@ class Board < Node
     [[1,2], [1, -2], [-1, 2], [-1, -2], [2,1], [-2,1], [2, -1], [-2,-1]]
   end
 
-  def initialize_graph
-    @root = Node.new(@move_end)
+  
+  def build_graph(array = [@move_end], depth = 0)
+    return if array.include?(@move_start)
+    destination = Node.new(array)
+    build_graph(poss_move_arr(array), depth+=1)
+    depth
   end
-
-  def build_graph(array)
-    return array if array.include?(@move_start)
-    initialize_graph
-    @root = Node.new(@move_end)
-    our_array = poss_move_arr(array)
-    build_graph(our_array)
-  end
-
  
 end
 
 chessboard = Board.new
 chessboard.display_board
-#chessboard.board_array
+chessboard.board_array
 chessboard.player_move
 p chessboard.move_to_coordinates
 p chessboard.knight_moves
 p chessboard.our_moves
 p chessboard.coordinates_to_move(chessboard.our_moves)
+p chessboard.build_graph
