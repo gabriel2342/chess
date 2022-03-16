@@ -43,30 +43,28 @@ class Board < Node
     
   end
 
+  def position_array
+    [[x,y+1], [x, y-1], [x+1, y], [x-1, y]]
+  end
+
   def board_array
     (0..7).each do |x|
       temp = []
       (0..7).each do |y| 
         position = Node.new([x,y])
+        
+        position.add_square([x, y+1]) unless y+1 > 7
+        position.add_square([x, y-1]) unless y-1 < 0
+        position.add_square([x+1, y]) unless x+1 > 7
+        position.add_square([x-1, y]) unless x-1 < 0
         temp.push(position)
       end
       @board_array.push(temp)
     end
-    "result #{@board_array}"
+    "result #{@board_array[0]}"
   end
 
-  def build_graph
-    (0..7).each do |i|
-      (0..7).each do |j|
-        @board_array[i][j].add_square(@board_array[i][j+1]) unless j+1 > 7
-        @board_array[i][j].add_square(@board_array[i][j-1]) unless j-1 < 0
-        @board_array[i][j].add_square(@board_array[i+1][j]) unless i+1 > 7
-        @board_array[i][j].add_square(@board_array[i-1][j]) unless i-1 < 0
-
-      end
-    end
-    @board_array[0]
-  end
+  
 
   def display_board
       puts " a  b  c  d  e  f  g  h"
@@ -125,8 +123,7 @@ end
 
 chessboard = Board.new
 #chessboard.display_board
-chessboard.board_array
-p chessboard.build_graph
+p chessboard.board_array
 # chessboard.player_move
 # p chessboard.move_to_coordinates
 # p chessboard.knight_moves
