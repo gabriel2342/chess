@@ -1,3 +1,5 @@
+
+
 class Node
   attr_accessor :board_position, :adjacent_squares
 
@@ -9,6 +11,8 @@ class Node
   def add_square(adjacent_square)
     @adjacent_squares << adjacent_square
   end
+
+ 
 end
 
 # class Graph
