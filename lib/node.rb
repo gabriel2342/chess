@@ -1,6 +1,6 @@
 
 
-class Node
+class Square
   attr_accessor :board_position, :adjacent_squares
 
   def initialize(board_position = nil, adjacent_squares = [])
@@ -12,6 +12,7 @@ class Node
     @adjacent_squares << adjacent_square
   end
 
+  
  
 end
 
