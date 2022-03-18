@@ -36,8 +36,8 @@ class Knight
   def build_adjacent_list(moves, queue)
     moves.adjacent_squares.each do |mov|
       unless @past_moves.include?(mov)
-        queue.push(@knight_2d_array[mov[0]][mov[1]]) 
-        @path_followed[mov] = moves.board_position 
+        queue.push(@knight_2d_array[mov[0]][mov[1]])
+        @path_followed[mov] = moves.board_position
       end
     end
   end
@@ -66,7 +66,7 @@ class Knight
 
   def backtrace_path(tail)
     moves = []
-    until tail ==  FINAL
+    until tail == FINAL
       moves.push(tail)
       tail = @path_followed[tail]
     end
@@ -75,8 +75,9 @@ class Knight
 
   def add_adjacent_squares_knight(node, x_coord, y_coord)
     potential_knight_moves.each do |move|
-      x_axis, y_axis = x_coord + move[0], y_coord + move[1]
-        node.add_square([x_axis, y_axis]) if x_axis.between?(0, 7) && y_axis.between?(0, 7)
+      x_axis = x_coord + move[0]
+      y_axis = y_coord + move[1]
+      node.add_square([x_axis, y_axis]) if x_axis.between?(0, 7) && y_axis.between?(0, 7)
     end
   end
 

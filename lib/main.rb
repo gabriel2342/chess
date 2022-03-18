@@ -2,7 +2,13 @@
 
 require_relative 'knight'
 
-class Game
+# Recieves player input and sends messages to our Knight class
+class Player
+
+  def initialize
+    @move_start = nil
+    @move_end = nil
+  end
   def player_input
     puts 'Please enter your move:'
     player_move = gets.chomp.chars
@@ -32,6 +38,6 @@ class Game
   end
 end
 
-game = Game.new
+game = Player.new
 game.player_input
 game.player_knight
