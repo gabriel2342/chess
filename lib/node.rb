@@ -1,5 +1,3 @@
-
-
 class Square
   attr_accessor :board_position, :adjacent_squares
 
@@ -11,9 +9,6 @@ class Square
   def add_square(adjacent_square)
     @adjacent_squares << adjacent_square
   end
-
-  
- 
 end
 
 # class Graph
@@ -27,5 +22,3 @@ end
 #     @nodes << Node.new(value)
 #   end
 # end
-
-
