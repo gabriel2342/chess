@@ -1,32 +1,39 @@
 # frozen_string_literal: false
 
 require_relative 'knight'
+require_relative 'display'
+require 'colorize'
 
 # Recieves player input and sends messages to our Knight class
 class Player
+  include Display
+  attr_reader :move_start, :move_end
+
   def initialize
     @move_start = nil
     @move_end = nil
+    display_welcome_banner
+    display_welcome_message
   end
 
   def validate_input(input)
-    input[0].match?(/[A-Za-z]/) && input[1].match?(/\A[-+]?[0-9]+\z/) unless input == ""
+    input[0].match?(/[A-Za-z]/) && input[1].match?(/\A[-+]?[0-9]+\z/) unless input == ''
   end
 
   def player_input
-    start = ""
-    final = ""
+    start = ''
+    final = ''
     until validate_input(start)
-      print "\n==> Please enter the starting square for your knight in algebraic notation: "
+      display_starting_square_message
       start = gets.chomp.downcase
+      display_warning_message if validate_input(start) == false
     end
 
     until validate_input(final)
-      print "\n==> Great! Now please enter the desired ending square for your knight in algebraic notation: "
+      display_desired_ending_message
       final = gets.chomp.downcase
     end
-    
-    
+
     player_move = (start + final).chars
     move_to_coordinates(player_move)
   end
@@ -42,7 +49,7 @@ class Player
     coord_hash = { 0 => 'a', 1 => 'b', 2 => 'c', 3 => 'd', 4 => 'e', 5 => 'f', 6 => 'g', 7 => 'h' }
     coords[0] = coord_hash[coords[0]]
     coords[1] = (coords[1] + 1).to_s
-    result_arr.push(coords.join(''))
+    result_arr.push(coords.join('').light_green)
   end
 
   def player_knight
@@ -53,12 +60,19 @@ class Player
     path = path.map do |coord|
       coordinates_to_move(coord)
     end
-    puts "\nCalculating..."
+    display_calulate_message
     sleep(2)
-    puts "\n==> The shortest path on the chess board to your desired ending square is ".concat(path.flatten.join(' to ')) + "."
+    display_shorest_path_message(path)
   end
 end
 
 game = Player.new
-game.player_input
-game.player_knight
+move_again = ''
+until move_again == 'no'
+  game.player_input
+  game.player_knight
+  game.display_try_again
+  move_again = gets.chomp.downcase
+end
+
+game.display_goodbye
