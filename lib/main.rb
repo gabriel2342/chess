@@ -27,7 +27,8 @@ class Game
 
   def player_knight
     our_piece = Knight.new(@move_start, @move_end)
-    p our_piece.knight_board_array
+    our_piece.knight_board_array
+    p our_piece.knight_moves
   end
 
 
