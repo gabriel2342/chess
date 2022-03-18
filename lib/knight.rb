@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'node'
+require_relative 'board_squares'
 
 FINAL = 0
 # Our knight class representing the black and white knights on the board
@@ -60,8 +60,8 @@ class Knight
     end
   end
 
-  def print_path
-    p backtrace_path(@finish)
+  def knight_path
+    backtrace_path(@finish)
   end
 
   def backtrace_path(tail)
